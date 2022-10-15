@@ -1,0 +1,4 @@
+{
+    "postgres": "host=postgres-service port=5432 user=botmaster password=lolkek dbname=botmaster sslmode=disable",
+    "env": "dev"
+  }
