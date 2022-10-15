@@ -2,13 +2,12 @@ package main
 
 import (
 	"drssrdb/repo"
-	"flag"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"runtime/debug"
 
-	"git.gotbit.io/gotbit/vipe"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 )
@@ -46,28 +45,14 @@ func main() {
 	}()
 
 	configFile := os.Getenv(ConfigEnvVariableName)
-	if len(configFile) == 0 {
-		flag.StringVar(&configFile, ConfigFlagName, "", "full path to a json config file")
-		flag.Parse()
-	}
-	configuration, err := vipe.NewConfiguration(DefaultConfig)
-	if err != nil {
-		logger.Error("new configuration", "error", err)
-		return
-	}
+
+	var config repo.Config
 	if len(configFile) > 0 {
-		configuration.SetConfigFile(configFile)
-		err := configuration.SafeWriteConfigAs(configFile)
-		if err != nil {
-			logger.Warn(err)
-		}
+		config = LoadConfiguration(configFile)
+	} else {
+		config = DefaultConfig
 	}
 
-	if err := configuration.ReadInConfig(); err != nil {
-		logger.Warn(err)
-	}
-
-	config := configuration.GetValue()
 	if config.Env == "dev" {
 		logger.Level = logrus.DebugLevel
 	} else {
@@ -84,4 +69,16 @@ func main() {
 	if err := repo.ApplyMigrations(db); err != nil {
 		panic(err)
 	}
+}
+
+func LoadConfiguration(file string) repo.Config {
+	var config repo.Config
+	configFile, err := os.Open(file)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	defer configFile.Close()
+	jsonParser := json.NewDecoder(configFile)
+	jsonParser.Decode(&config)
+	return config
 }

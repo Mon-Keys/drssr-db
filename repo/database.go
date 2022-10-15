@@ -10,8 +10,8 @@ import (
 )
 
 type Config struct {
-	Postgres string `mapstructure:"postgres"`
-	Env      string `mapstructure:"env"`
+	Postgres string `json:"postgres"`
+	Env      string `json:"env"`
 }
 
 type db struct {
