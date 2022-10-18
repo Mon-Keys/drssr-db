@@ -38,9 +38,6 @@ func NewDatabase(logger logrus.Logger, config Config) *db {
 
 func ApplyMigrations(db *db) error {
 	goose.SetBaseFS(drssrdb.Migrations)
-	// goose.SetLogger(&gooseLogger{
-	// 	Logger: db.logger,
-	// })
 	err := goose.Up(&db.DB, "migrations")
 	if err != nil {
 		db.Logger.Error(err)

@@ -27,7 +27,7 @@ var (
 	DB_HOST     = os.Getenv("DB_HOST")
 	DB_PORT     = os.Getenv("DB_PORT")
 	DB_NAME     = os.Getenv("DB_NAME")
-	ROOT_DIR    = "./forwards/"
+	ROOT_DIR    = "./migrations/"
 )
 
 func main() {
