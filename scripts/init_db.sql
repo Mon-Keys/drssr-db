@@ -1,5 +1,3 @@
--- +goose Up
--- +goose StatementBegin
 CREATE EXTENSION citext;
 CREATE EXTENSION hstore;
 CREATE TYPE sex_enum AS ENUM ('male', 'female', 'unisex');
@@ -83,20 +81,3 @@ CREATE TABLE links
     CONSTRAINT FK_links_clothes FOREIGN KEY (clothes_id)
         REFERENCES clothes (id)
 );
--- +goose StatementEnd
-
--- +goose Down
--- +goose StatementBegin
-DROP EXTENSION citext CASCADE;
-DROP EXTENSION hstore CASCADE;
-
-DROP TYPE sex_enum CASCADE;
-
-DROP TABLE users CASCADE;
-DROP TABLE clothes CASCADE;
-DROP TABLE looks CASCADE;
-DROP TABLE tags CASCADE;
-DROP TABLE similarity CASCADE;
-DROP TABLE clothes_users CASCADE;
-DROP TABLE links CASCADE;
--- +goose StatementEnd

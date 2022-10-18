@@ -1,0 +1,21 @@
+version: "3"
+
+volumes:
+  dbbackups:
+  postgis-data:
+
+services:
+   postgres:
+    image: postgres:latest
+    volumes:
+      - postgis-data:/var/lib/postgresql
+      - ./scripts/:/docker-entrypoint-initdb.d/
+    environment:
+        POSTGRES_DB: "drssr"
+        POSTGRES_USER: "admin"
+        POSTGRES_PASSWORD: "lolkek"
+    ports:
+      - "5432:5432"
+    restart: on-failure
+    healthcheck:
+      test: "exit 0"
