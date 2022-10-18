@@ -9,7 +9,7 @@ CREATE TABLE users
     id          BIGSERIAL PRIMARY KEY,
     nickname    VARCHAR(32) NOT NULL UNIQUE,
     email       citext      NOT NULL UNIQUE,
-    password    VARCHAR(32) NOT NULL,
+    password    VARCHAR(128) NOT NULL,
     name        VARCHAR(64) NOT NULL DEFAULT '',
     avatar      VARCHAR(64) NOT NULL,
     stylist     BOOL        NOT NULL DEFAULT false,
