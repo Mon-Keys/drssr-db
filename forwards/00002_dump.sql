@@ -11,7 +11,7 @@ CREATE TABLE users
     email       citext      NOT NULL UNIQUE,
     password    VARCHAR(128) NOT NULL,
     name        VARCHAR(64) NOT NULL DEFAULT '',
-    avatar      VARCHAR(64) NOT NULL,
+    avatar      VARCHAR(64) NOT NULL DEFAULT '',
     stylist     BOOL        NOT NULL DEFAULT false,
     birth_date  DATE        NOT NULL,
     description VARCHAR(64) NOT NULL DEFAULT '',
