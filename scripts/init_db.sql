@@ -21,7 +21,8 @@ CREATE TABLE clothes
     id         BIGSERIAL PRIMARY KEY,
     type       VARCHAR(32) NOT NULL,
     color      VARCHAR(32) NOT NULL DEFAULT '',
-    img        VARCHAR(32) NOT NULL,
+    img        VARCHAR(256) NOT NULL,
+    mask       VARCHAR(256) NOT NULL,
     brand      VARCHAR(32) NOT NULL DEFAULT '',
     sex        sex_enum    NOT NULL DEFAULT 'unisex',
     created_at TIMESTAMPTZ NOT NULL DEFAULT now()
@@ -47,14 +48,14 @@ CREATE TABLE tags
 
 CREATE TABLE similarity
 (
-    id         BIGSERIAL PRIMARY KEY,
-    percent    int         NOT NULL,
-    clothe1_id BIGINT      NOT NULL,
-    clothe2_id BIGINT      NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    CONSTRAINT FK_clothe1_clothes FOREIGN KEY (clothe1_id)
+    id          BIGSERIAL PRIMARY KEY,
+    percent     INT         NOT NULL,
+    clothes1_id BIGINT      NOT NULL,
+    clothes2_id BIGINT      NOT NULL,
+    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT FK_clothes1_clothes FOREIGN KEY (clothes1_id)
         REFERENCES clothes (id),
-    CONSTRAINT FK_clothe2_clothes FOREIGN KEY (clothe2_id)
+    CONSTRAINT FK_clothes2_clothes FOREIGN KEY (clothes2_id)
         REFERENCES clothes (id)
 );
 
