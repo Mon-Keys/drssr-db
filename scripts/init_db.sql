@@ -31,9 +31,9 @@ CREATE TABLE clothes
 CREATE TABLE looks
 (
     id          BIGSERIAL PRIMARY KEY,
-    preview     VARCHAR(32) NOT NULL,
-    path        VARCHAR(32) NOT NULL,
-    description VARCHAR(64) NOT NULL DEFAULT '',
+    preview     VARCHAR(256) NOT NULL,
+    img         VARCHAR(256) NOT NULL,
+    description VARCHAR(1024) NOT NULL DEFAULT '',
     creator_id  BIGINT      NOT NULL,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
     CONSTRAINT FK_looks_user FOREIGN KEY (creator_id)
@@ -69,6 +69,18 @@ CREATE TABLE clothes_users
         REFERENCES clothes (id),
     CONSTRAINT FK_cu_users FOREIGN KEY (user_id)
         REFERENCES users (id)
+);
+
+CREATE TABLE clothes_looks
+(
+    id         BIGSERIAL PRIMARY KEY,
+    clothes_id BIGINT      NOT NULL,
+    look_id    BIGINT      NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT FK_cl_clothes FOREIGN KEY (clothes_id)
+        REFERENCES clothes (id),
+    CONSTRAINT FK_cl_looks FOREIGN KEY (look_id)
+        REFERENCES looks (id)
 );
 
 CREATE TABLE links
