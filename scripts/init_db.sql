@@ -31,7 +31,7 @@ CREATE TABLE clothes
 CREATE TABLE looks
 (
     id          BIGSERIAL PRIMARY KEY,
-    preview     VARCHAR(256) NOT NULL,
+    preview     VARCHAR(256) NOT NULL DEFAULT '',
     img         VARCHAR(256) NOT NULL,
     description VARCHAR(1024) NOT NULL DEFAULT '',
     creator_id  BIGINT      NOT NULL,
@@ -76,6 +76,8 @@ CREATE TABLE clothes_looks
     id         BIGSERIAL PRIMARY KEY,
     clothes_id BIGINT      NOT NULL,
     look_id    BIGINT      NOT NULL,
+    x          INT         NOT NULL,
+    y          INT         NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     CONSTRAINT FK_cl_clothes FOREIGN KEY (clothes_id)
         REFERENCES clothes (id),
