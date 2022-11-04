@@ -2,6 +2,10 @@ CREATE EXTENSION citext;
 CREATE EXTENSION hstore;
 CREATE TYPE sex_enum AS ENUM ('male', 'female', 'unisex');
 
+CREATE TYPE post_type_enum AS ENUM ('look', 'clothes');
+
+CREATE TYPE currency_enum AS ENUM ('RUB');
+
 CREATE TABLE users
 (
     id          BIGSERIAL PRIMARY KEY,
@@ -20,12 +24,18 @@ CREATE TABLE clothes
 (
     id         BIGSERIAL PRIMARY KEY,
     type       VARCHAR(32) NOT NULL,
-    color      VARCHAR(32) NOT NULL DEFAULT '',
     img        VARCHAR(256) NOT NULL,
     mask       VARCHAR(256) NOT NULL,
+    link       VARCHAR(128) NOT NULL DEFAULT '',
+    price      INT NOT NULL DEFAULT 0,
+    currency   currency_enum NOT NULL DEFAULT 'RUB',
+    color      VARCHAR(32) NOT NULL DEFAULT '',
     brand      VARCHAR(32) NOT NULL DEFAULT '',
     sex        sex_enum    NOT NULL DEFAULT 'unisex',
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    owner_id  BIGINT      NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT FK_clothes_user FOREIGN KEY (owner_id)
+        REFERENCES users (id)
 );
 
 CREATE TABLE looks
@@ -59,17 +69,17 @@ CREATE TABLE similarity
         REFERENCES clothes (id)
 );
 
-CREATE TABLE clothes_users
-(
-    id         BIGSERIAL PRIMARY KEY,
-    clothes_id BIGINT      NOT NULL,
-    user_id    BIGINT      NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    CONSTRAINT FK_cu_clothes FOREIGN KEY (clothes_id)
-        REFERENCES clothes (id),
-    CONSTRAINT FK_cu_users FOREIGN KEY (user_id)
-        REFERENCES users (id)
-);
+-- CREATE TABLE clothes_users
+-- (
+--     id         BIGSERIAL PRIMARY KEY,
+--     clothes_id BIGINT      NOT NULL,
+--     user_id    BIGINT      NOT NULL,
+--     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+--     CONSTRAINT FK_cu_clothes FOREIGN KEY (clothes_id)
+--         REFERENCES clothes (id),
+--     CONSTRAINT FK_cu_users FOREIGN KEY (user_id)
+--         REFERENCES users (id)
+-- );
 
 CREATE TABLE clothes_looks
 (
@@ -85,14 +95,11 @@ CREATE TABLE clothes_looks
         REFERENCES looks (id)
 );
 
-CREATE TABLE links
+CREATE TABLE posts
 (
     id         BIGSERIAL PRIMARY KEY,
-    name       citext      NOT NULL UNIQUE,
-    price      citext      NOT NULL DEFAULT 0,
-    sizes      hstore,
-    clothes_id BIGINT      NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    CONSTRAINT FK_links_clothes FOREIGN KEY (clothes_id)
-        REFERENCES clothes (id)
+    type       post_type_enum NOT NULL,
+    element_id BIGINT NOT NULL,
+    previews_paths VARCHAR(256)[],
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
