@@ -7,6 +7,9 @@ ifeq ($(UNAME_S),Linux)
 	POSTGRES_START = service postgresql start
 endif
 
+mac-docker:
+	sudo docker compose up
+
 docker:
 	$(POSTGRES_STOP)
 	sudo docker compose up

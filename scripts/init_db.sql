@@ -32,7 +32,7 @@ CREATE TABLE clothes
     color      VARCHAR(32) NOT NULL DEFAULT '',
     brand      VARCHAR(32) NOT NULL DEFAULT '',
     sex        sex_enum    NOT NULL DEFAULT 'unisex',
-    owner_id  BIGINT      NOT NULL,
+    owner_id   BIGINT      NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     CONSTRAINT FK_clothes_user FOREIGN KEY (owner_id)
         REFERENCES users (id)
@@ -41,7 +41,6 @@ CREATE TABLE clothes
 CREATE TABLE looks
 (
     id          BIGSERIAL PRIMARY KEY,
-    preview     VARCHAR(256) NOT NULL DEFAULT '',
     img         VARCHAR(256) NOT NULL,
     description VARCHAR(1024) NOT NULL DEFAULT '',
     creator_id  BIGINT      NOT NULL,
@@ -97,9 +96,11 @@ CREATE TABLE clothes_looks
 
 CREATE TABLE posts
 (
-    id         BIGSERIAL PRIMARY KEY,
-    type       post_type_enum NOT NULL,
-    element_id BIGINT NOT NULL,
+    id             BIGSERIAL PRIMARY KEY,
+    type           post_type_enum NOT NULL,
+    description    VARCHAR(64) NOT NULL DEFAULT '',
+    element_id     BIGINT NOT NULL,
+    creator_id     BIGINT      NOT NULL,
     previews_paths VARCHAR(256)[],
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+    created_at     TIMESTAMPTZ NOT NULL DEFAULT now()
 );
