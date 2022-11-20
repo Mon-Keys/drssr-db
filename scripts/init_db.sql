@@ -68,18 +68,6 @@ CREATE TABLE similarity
         REFERENCES clothes (id)
 );
 
--- CREATE TABLE clothes_users
--- (
---     id         BIGSERIAL PRIMARY KEY,
---     clothes_id BIGINT      NOT NULL,
---     user_id    BIGINT      NOT NULL,
---     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
---     CONSTRAINT FK_cu_clothes FOREIGN KEY (clothes_id)
---         REFERENCES clothes (id),
---     CONSTRAINT FK_cu_users FOREIGN KEY (user_id)
---         REFERENCES users (id)
--- );
-
 CREATE TABLE clothes_looks
 (
     id         BIGSERIAL PRIMARY KEY,
@@ -103,4 +91,17 @@ CREATE TABLE posts
     creator_id     BIGINT      NOT NULL,
     previews_paths VARCHAR(256)[],
     created_at     TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE likes
+(
+    id         BIGSERIAL PRIMARY KEY,
+    post_id BIGINT      NOT NULL,
+    user_id    BIGINT      NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT FK_likes_post FOREIGN KEY (post_id)
+        REFERENCES posts (id),
+    CONSTRAINT FK_likes_users FOREIGN KEY (user_id)
+        REFERENCES users (id),
+    UNIQUE (post_id, user_id)
 );
