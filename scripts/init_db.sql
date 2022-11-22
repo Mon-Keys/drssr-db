@@ -22,29 +22,32 @@ CREATE TABLE users
 
 CREATE TABLE clothes
 (
-    id         BIGSERIAL PRIMARY KEY,
-    type       VARCHAR(32) NOT NULL,
-    img        VARCHAR(256) NOT NULL,
-    mask       VARCHAR(256) NOT NULL,
-    link       VARCHAR(128) NOT NULL DEFAULT '',
-    price      INT NOT NULL DEFAULT 0,
-    currency   currency_enum NOT NULL DEFAULT 'RUB',
-    color      VARCHAR(32) NOT NULL DEFAULT '',
-    brand      VARCHAR(32) NOT NULL DEFAULT '',
-    sex        sex_enum    NOT NULL DEFAULT 'unisex',
-    owner_id   BIGINT      NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    id          BIGSERIAL     PRIMARY KEY,
+    name        VARCHAR(32)   DEFAULT '',
+    description TEXT NOT NULL DEFAULT '', 
+    type        VARCHAR(32)   NOT NULL,
+    img         VARCHAR(256)  NOT NULL,
+    mask        VARCHAR(256)  NOT NULL,
+    link        VARCHAR(128)  NOT NULL DEFAULT '',
+    price       INT           NOT NULL DEFAULT 0,
+    currency    currency_enum NOT NULL DEFAULT 'RUB',
+    color       VARCHAR(32)   NOT NULL DEFAULT '',
+    brand       VARCHAR(32)   NOT NULL DEFAULT '',
+    sex         sex_enum      NOT NULL DEFAULT 'unisex',
+    owner_id    BIGINT        NOT NULL,
+    created_at  TIMESTAMPTZ   NOT NULL DEFAULT now(),
     CONSTRAINT FK_clothes_user FOREIGN KEY (owner_id)
         REFERENCES users (id)
 );
 
 CREATE TABLE looks
 (
-    id          BIGSERIAL PRIMARY KEY,
+    id          BIGSERIAL    PRIMARY KEY,
     img         VARCHAR(256) NOT NULL,
-    description VARCHAR(1024) NOT NULL DEFAULT '',
-    creator_id  BIGINT      NOT NULL,
-    created_at  TIMESTAMPTZ NOT NULL DEFAULT now(),
+    name        VARCHAR(32)  DEFAULT '',
+    description TEXT         NOT NULL DEFAULT '',
+    creator_id  BIGINT       NOT NULL,
+    created_at  TIMESTAMPTZ  NOT NULL DEFAULT now(),
     CONSTRAINT FK_looks_user FOREIGN KEY (creator_id)
         REFERENCES users (id)
 );
@@ -57,7 +60,7 @@ CREATE TABLE tags
 
 CREATE TABLE similarity
 (
-    id          BIGSERIAL PRIMARY KEY,
+    id          BIGSERIAL   PRIMARY KEY,
     percent     INT         NOT NULL,
     clothes1_id BIGINT      NOT NULL,
     clothes2_id BIGINT      NOT NULL,
@@ -70,7 +73,7 @@ CREATE TABLE similarity
 
 CREATE TABLE clothes_looks
 (
-    id         BIGSERIAL PRIMARY KEY,
+    id         BIGSERIAL   PRIMARY KEY,
     clothes_id BIGINT      NOT NULL,
     look_id    BIGINT      NOT NULL,
     x          INT         NOT NULL,
@@ -84,19 +87,20 @@ CREATE TABLE clothes_looks
 
 CREATE TABLE posts
 (
-    id             BIGSERIAL PRIMARY KEY,
+    id             BIGSERIAL      PRIMARY KEY,
     type           post_type_enum NOT NULL,
-    description    VARCHAR(64) NOT NULL DEFAULT '',
-    element_id     BIGINT NOT NULL,
-    creator_id     BIGINT      NOT NULL,
+    name           VARCHAR(32)    DEFAULT '',
+    description    TEXT           NOT NULL DEFAULT '',
+    element_id     BIGINT         NOT NULL,
+    creator_id     BIGINT         NOT NULL,
     previews_paths VARCHAR(256)[],
-    created_at     TIMESTAMPTZ NOT NULL DEFAULT now()
+    created_at     TIMESTAMPTZ    NOT NULL DEFAULT now()
 );
 
 CREATE TABLE likes
 (
-    id         BIGSERIAL PRIMARY KEY,
-    post_id BIGINT      NOT NULL,
+    id         BIGSERIAL   PRIMARY KEY,
+    post_id    BIGINT      NOT NULL,
     user_id    BIGINT      NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     CONSTRAINT FK_likes_post FOREIGN KEY (post_id)
