@@ -8,16 +8,16 @@ CREATE TYPE currency_enum AS ENUM ('RUB');
 
 CREATE TABLE users
 (
-    id          BIGSERIAL PRIMARY KEY,
-    nickname    VARCHAR(32) NOT NULL UNIQUE,
-    email       citext      NOT NULL UNIQUE,
+    id          BIGSERIAL    PRIMARY KEY,
+    nickname    VARCHAR(32)  NOT NULL UNIQUE,
+    email       citext       NOT NULL UNIQUE,
     password    VARCHAR(128) NOT NULL,
-    name        VARCHAR(64) NOT NULL DEFAULT '',
-    avatar      VARCHAR(64) NOT NULL DEFAULT '',
-    stylist     BOOL        NOT NULL DEFAULT false,
-    birth_date  DATE        NOT NULL,
-    description VARCHAR(64) NOT NULL DEFAULT '',
-    created_at  TIMESTAMPTZ NOT NULL DEFAULT now()
+    name        VARCHAR(64)  NOT NULL DEFAULT '',
+    avatar      VARCHAR(256) NOT NULL DEFAULT '',
+    stylist     BOOL         NOT NULL DEFAULT false,
+    birth_date  DATE         NOT NULL,
+    description VARCHAR(64)  NOT NULL DEFAULT '',
+    created_at  TIMESTAMPTZ  NOT NULL DEFAULT now()
 );
 
 CREATE TABLE clothes
@@ -78,6 +78,9 @@ CREATE TABLE clothes_looks
     look_id    BIGINT      NOT NULL,
     x          INT         NOT NULL,
     y          INT         NOT NULL,
+    z          INT         NOT NULL,
+    rotation   INT         NOT NULL,
+    scaling    INT         NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     CONSTRAINT FK_cl_clothes FOREIGN KEY (clothes_id)
         REFERENCES clothes (id),
