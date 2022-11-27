@@ -32,7 +32,7 @@ CREATE TABLE clothes
     price       INT           NOT NULL DEFAULT 0,
     currency    currency_enum NOT NULL DEFAULT 'RUB',
     color       VARCHAR(32)   NOT NULL DEFAULT '',
-    brand       VARCHAR(32)   NOT NULL DEFAULT '',
+    brand       VARCHAR(64)   NOT NULL DEFAULT '',
     sex         sex_enum      NOT NULL DEFAULT 'unisex',
     owner_id    BIGINT        NOT NULL,
     created_at  TIMESTAMPTZ   NOT NULL DEFAULT now(),
