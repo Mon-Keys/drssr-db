@@ -112,3 +112,12 @@ CREATE TABLE likes
         REFERENCES users (id),
     UNIQUE (post_id, user_id)
 );
+
+CREATE TABLE stylist_requests
+(
+    id         BIGSERIAL   PRIMARY KEY,
+    user_id    BIGINT      NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    CONSTRAINT FK_requests_users FOREIGN KEY (user_id)
+        REFERENCES users (id)
+);
