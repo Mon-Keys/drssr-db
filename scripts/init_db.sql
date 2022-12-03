@@ -28,7 +28,7 @@ CREATE TABLE clothes
     type        VARCHAR(32)   NOT NULL,
     img         VARCHAR(256)  NOT NULL,
     mask        VARCHAR(256)  NOT NULL,
-    link        VARCHAR(128)  NOT NULL DEFAULT '',
+    link        VARCHAR(512)  NOT NULL DEFAULT '',
     price       INT           NOT NULL DEFAULT 0,
     currency    currency_enum NOT NULL DEFAULT 'RUB',
     color       VARCHAR(32)   NOT NULL DEFAULT '',
